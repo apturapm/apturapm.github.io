@@ -29,7 +29,7 @@ Contains all the Google Apps Script code and documentation:
 ## 🚀 Next Steps (Required)
 
 ### Step 1: Deploy the Google Apps Script
-1. Open your Google Sheet: https://docs.google.com/spreadsheets/d/1KucxWlF9PGIBNIx-RiIHVfQzmkGNsQxg5S_HrJBspBQ/edit
+1. Open your Google Sheet: https://docs.google.com/spreadsheets/d/xxxxx/edit
 2. Go to **Extensions** → **Apps Script**
 3. Copy the code from `google-apps-script/waitlist-handler.gs`
 4. Paste it into the Apps Script editor

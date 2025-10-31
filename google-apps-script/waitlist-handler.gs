@@ -4,7 +4,7 @@
  * and appends the data to the connected Google Sheet.
  * 
  * Setup Instructions:
- * 1. Open your Google Sheet: https://docs.google.com/spreadsheets/d/1KucxWlF9PGIBNIx-RiIHVfQzmkGNsQxg5S_HrJBspBQ/edit
+ * 1. Open your Google Sheet: https://docs.google.com/spreadsheets/d/xxxxx/edit
  * 2. Go to Extensions → Apps Script
  * 3. Delete any existing code and paste this entire file
  * 4. Save the project (Ctrl/Cmd + S)
