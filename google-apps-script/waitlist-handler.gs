@@ -31,14 +31,40 @@ const ALLOWED_ORIGINS = [
  */
 function doPost(e) {
   try {
+    // Enhanced logging for debugging
+    console.log('=== POST Request Received ===');
+    console.log('Event object:', JSON.stringify(e));
+    
+    // Check if postData exists
+    if (!e || !e.postData) {
+      console.error('ERROR: No postData in event object');
+      return createResponse(false, 'Invalid request: no postData', 400);
+    }
+    
+    console.log('Raw postData contents:', e.postData.contents);
+    
     // Parse the incoming JSON data
-    const data = JSON.parse(e.postData.contents);
+    let data;
+    try {
+      data = JSON.parse(e.postData.contents);
+      console.log('Parsed data:', JSON.stringify(data));
+    } catch (parseError) {
+      console.error('JSON Parse Error:', parseError.toString());
+      return createResponse(false, 'Invalid JSON data', 400);
+    }
     
     // Get the active spreadsheet and target sheet
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    console.log('Spreadsheet name:', spreadsheet.getName());
+    
+    const sheet = spreadsheet.getSheetByName(SHEET_NAME);
+    console.log('Looking for sheet:', SHEET_NAME);
+    console.log('Sheet found:', sheet ? 'Yes' : 'No');
     
     if (!sheet) {
-      return createResponse(false, 'Sheet not found', 404);
+      const availableSheets = spreadsheet.getSheets().map(s => s.getName()).join(', ');
+      console.error('Sheet not found. Available sheets:', availableSheets);
+      return createResponse(false, 'Sheet "' + SHEET_NAME + '" not found. Available: ' + availableSheets, 404);
     }
     
     // Prepare the row data matching your sheet columns
@@ -51,16 +77,20 @@ function doPost(e) {
       new Date().toISOString()   // Optional: Timestamp (Column E)
     ];
     
+    console.log('Row data to append:', JSON.stringify(rowData));
+    
     // Append the data to the sheet
     sheet.appendRow(rowData);
+    console.log('Row appended successfully');
     
     // Log the submission for monitoring
-    Logger.log('New waitlist entry: ' + data.email);
+    console.log('✅ SUCCESS - New waitlist entry: ' + data.email);
     
     return createResponse(true, 'Successfully added to waitlist', 200);
     
   } catch (error) {
-    Logger.log('Error: ' + error.toString());
+    console.error('❌ FATAL ERROR:', error.toString());
+    console.error('Error stack:', error.stack);
     return createResponse(false, 'Error processing request: ' + error.toString(), 500);
   }
 }
@@ -144,5 +174,48 @@ function initializeSheet() {
   } else {
     Logger.log('Headers already exist');
   }
+}
+
+/**
+ * Diagnostic function - Run this to check your setup
+ * This will tell you what's configured and what sheets are available
+ */
+function diagnoseSetup() {
+  console.log('=== DIAGNOSIS START ===');
+  
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  console.log('✅ Spreadsheet found:', spreadsheet.getName());
+  console.log('   Spreadsheet ID:', spreadsheet.getId());
+  console.log('   Spreadsheet URL:', spreadsheet.getUrl());
+  
+  const sheets = spreadsheet.getSheets();
+  console.log('\n📊 Available sheets (' + sheets.length + '):');
+  sheets.forEach((sheet, index) => {
+    console.log('   ' + (index + 1) + '. "' + sheet.getName() + '" (' + sheet.getLastRow() + ' rows)');
+  });
+  
+  console.log('\n🔧 Current configuration:');
+  console.log('   Looking for sheet named: "' + SHEET_NAME + '"');
+  
+  const targetSheet = spreadsheet.getSheetByName(SHEET_NAME);
+  if (targetSheet) {
+    console.log('   ✅ Target sheet found!');
+    console.log('   Rows in sheet:', targetSheet.getLastRow());
+    console.log('   Columns in sheet:', targetSheet.getLastColumn());
+    
+    // Check headers
+    if (targetSheet.getLastRow() > 0) {
+      const headers = targetSheet.getRange(1, 1, 1, 5).getValues()[0];
+      console.log('   Current headers:', JSON.stringify(headers));
+    } else {
+      console.log('   ⚠️  Sheet is empty');
+    }
+  } else {
+    console.log('   ❌ Target sheet NOT found!');
+    console.log('   💡 Solution: Either rename one of your sheets to "' + SHEET_NAME + '"');
+    console.log('      or update SHEET_NAME in the script to match an existing sheet name');
+  }
+  
+  console.log('\n=== DIAGNOSIS COMPLETE ===');
 }
 
