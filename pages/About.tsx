@@ -19,6 +19,26 @@ const About: React.FC = () => {
           <p className="mt-6 max-w-3xl mx-auto text-lg text-brand-muted-text">
             We believe managing properties shouldn't be complex or time-consuming. By harnessing the power of Generative AI, we're building a future where property management is seamless, intelligent, and empowers you to focus on what matters most: growing your business and providing excellent experiences for your tenants.
           </p>
+          <div className="mt-12 grid gap-8 md:grid-cols-3">
+            <div className="bg-brand-secondary-bg border border-brand-border p-6 rounded-lg text-left">
+              <h3 className="text-xl font-semibold text-brand-foreground">Zero-waste maintenance</h3>
+              <p className="mt-3 text-brand-muted-text">
+                Every work order, dollar, and vendor action directly benefits owners and tenants.
+              </p>
+            </div>
+            <div className="bg-brand-secondary-bg border border-brand-border p-6 rounded-lg text-left">
+              <h3 className="text-xl font-semibold text-brand-foreground">AI automation as the engine</h3>
+              <p className="mt-3 text-brand-muted-text">
+                Intelligent triage, routing, and follow-up replace manual, repetitive tasks.
+              </p>
+            </div>
+            <div className="bg-brand-secondary-bg border border-brand-border p-6 rounded-lg text-left">
+              <h3 className="text-xl font-semibold text-brand-foreground">Human impact at the center</h3>
+              <p className="mt-3 text-brand-muted-text">
+                PMs spend time on growth, service, and trust—not tickets and fire drills.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Team Section */}
