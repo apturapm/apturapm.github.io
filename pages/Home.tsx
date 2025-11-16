@@ -24,7 +24,7 @@ const Home: React.FC = () => {
           <div className="min-h-[80vh] flex items-center justify-center text-center">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-brand-foreground tracking-tight">
-                Your daily control panel for rent, owner, and maintenance.
+                A world where AI makes maintenance zero-waste and frees property managers to scale their human impact—not their busyness.
               </h1>
               <p className="mt-6 max-w-3xl mx-auto text-lg lg:text-xl text-brand-muted-text">
                 Aptura helps small property managers get paid faster. See who’s late, chase rent automatically, and warn owners before payout problems blow up.
